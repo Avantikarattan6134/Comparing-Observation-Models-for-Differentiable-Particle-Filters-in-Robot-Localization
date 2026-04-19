@@ -1,0 +1,44 @@
+============================================================
+ROB599 - Differentiable Particle Filters Comparison Study
+============================================================
+
+RESULTS: RMSE and ATE for all 5 models on nav01, nav02, nav03
+(Lower is better. Units: pixels)
+
+Model          Task    RMSE        ATE
+------------------------------------------------------------
+CNN            nav01   85.4115     47.8927
+CNN            nav02   141.6061    79.7973
+CNN            nav03   240.5703    154.0669
+
+ViT            nav01   83.6451     45.6629
+ViT            nav02   155.2824    94.8914
+ViT            nav03   308.9775    223.0561
+
+ResNet         nav01   67.5432     34.9584   ← BEST
+ResNet         nav02   104.2721    52.3434   ← BEST
+ResNet         nav03   184.4325    104.3265  ← BEST
+
+ResNet+LSTM    nav01   76.6838     39.6892
+ResNet+LSTM    nav02   138.8067    70.4726
+ResNet+LSTM    nav03   263.0782    167.1421
+
+InEKF+ResNet   nav01   326.4700    301.6900
+InEKF+ResNet   nav02   497.8858    472.7680
+InEKF+ResNet   nav03   595.1418    571.9911
+
+============================================================
+BEST MODEL PER TASK: ResNet wins all tasks
+============================================================
+nav01: ResNet (RMSE=67.54)
+nav02: ResNet (RMSE=104.27)
+nav03: ResNet (RMSE=184.43)
+
+============================================================
+KEY FINDINGS
+============================================================
+1. ResNet outperforms CNN baseline by ~21% on nav01
+2. ViT slightly better than CNN on nav01 but worse on nav02/03
+3. ResNet+LSTM adds no benefit over ResNet alone
+4. InEKF+ResNet performs 4-5x worse than DPF variants
+   - Confirms particle filters better for multimodal posteriors
