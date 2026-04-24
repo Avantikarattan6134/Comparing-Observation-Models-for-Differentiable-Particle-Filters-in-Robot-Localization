@@ -8,18 +8,19 @@ results = {
     'ViT':          {'nav01': {'rmse': 83.65,  'ate': 45.66}, 'nav02': {'rmse': 155.28, 'ate': 94.89}, 'nav03': {'rmse': 308.98, 'ate': 223.06}},
     'ResNet':       {'nav01': {'rmse': 67.54,  'ate': 34.96}, 'nav02': {'rmse': 104.27, 'ate': 52.34}, 'nav03': {'rmse': 184.43, 'ate': 104.33}},
     'ResNet+LSTM':  {'nav01': {'rmse': 76.68,  'ate': 39.69}, 'nav02': {'rmse': 138.81, 'ate': 70.47}, 'nav03': {'rmse': 263.08, 'ate': 167.14}},
+    'Swin':         {'nav01': {'rmse': 77.83,  'ate': 42.10}, 'nav02': {'rmse': 149.58, 'ate': 92.42}, 'nav03': {'rmse': 269.95, 'ate': 181.55}},
     'InEKF+ResNet': {'nav01': {'rmse': 326.47, 'ate': 301.69}, 'nav02': {'rmse': 497.89, 'ate': 472.77}, 'nav03': {'rmse': 595.14, 'ate': 571.99}},
 }
 models = list(results.keys())
 tasks  = ['nav01', 'nav02', 'nav03']
-colors = ['#2196F3','#FF9800','#4CAF50','#9C27B0','#F44336']
+colors = ['#2196F3','#FF9800','#4CAF50','#9C27B0','#00BCD4','#F44336']
 
 def grouped_bar(metric, ylabel, filename):
     fig, ax = plt.subplots(figsize=(12, 6))
-    x = np.arange(len(tasks)); w = 0.15
+    x = np.arange(len(tasks)); w = 0.12
     for i,(m,c) in enumerate(zip(models,colors)):
         vals = [results[m][t][metric] for t in tasks]
-        ax.bar(x+(i-2)*w, vals, w, label=m, color=c, alpha=0.85)
+        ax.bar(x+(i-2.5)*w, vals, w, label=m, color=c, alpha=0.85)
     ax.set_xticks(x); ax.set_xticklabels(['nav01 (Easy)','nav02 (Medium)','nav03 (Hard)'])
     ax.set_ylabel(ylabel); ax.legend(); ax.grid(axis='y', alpha=0.3)
     ax.set_title(f'{ylabel} - All Models Comparison')
@@ -42,7 +43,7 @@ print('Saved plot_difficulty_scaling.png')
 
 # Particle vs Kalman
 fig, ax = plt.subplots(figsize=(10, 5))
-dpf4 = ['CNN','ViT','ResNet','ResNet+LSTM']
+dpf4 = ['CNN','ViT','ResNet','ResNet+LSTM','Swin']
 x = np.arange(len(tasks)); w = 0.25
 ax.bar(x-w, [results['ResNet'][t]['rmse'] for t in tasks],   w, label='Best DPF (ResNet)',  color='#4CAF50', alpha=0.85)
 ax.bar(x,   [np.mean([results[m][t]['rmse'] for m in dpf4]) for t in tasks], w, label='Avg DPF', color='#2196F3', alpha=0.85)
