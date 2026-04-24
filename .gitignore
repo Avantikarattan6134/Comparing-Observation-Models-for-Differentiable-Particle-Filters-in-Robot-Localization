@@ -1,0 +1,17 @@
+# Claude
+CLAUDE.md
+.claude/
+
+# Python
+__pycache__/
+
+# Data
+data/
+
+# Trained models (weights + checkpoints)
+models/*/best_validation.*
+models/*/checkpoint
+
+# SLURM logs
+logs/
+
